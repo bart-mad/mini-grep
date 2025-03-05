@@ -1,6 +1,7 @@
 use std::env;
 use std::fs;
 use std::process;
+use std::error::Error;
 
 fn main(){
     // Read the function args and parse them to variables
@@ -11,14 +12,26 @@ fn main(){
         process::exit(1);
     });
 
-    // Read the target file
-    let file_content: String = fs::read_to_string(&config.file_path)
-        .expect("Failed to read the file");
-
+    println!("Search for: {}",config.query);
     println!("In file: {}",config.file_path);
-    println!("{}",file_content);
+
+    if let Err(e) = run(config){
+        println!("Application error  {e}");
+        process::exit(1);
+    }
 
 }
+
+fn run(config: Config) -> Result<(), Box<dyn Error>> {
+
+    // Read the target file
+    let file_content: String = fs::read_to_string(&config.file_path)?;
+
+        println!("{}",file_content);
+
+        Ok(())
+}
+
 struct Config {
     query: String,
     file_path: String,

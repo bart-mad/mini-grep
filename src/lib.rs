@@ -38,7 +38,7 @@ impl Config{
 
         if args.len() > 3{
             // ToDo! - print warning (to stderr?) and continue
-            println!("Ignoring extra arguments passed (>2)");
+            eprintln!("Ignoring extra arguments passed (>2)");
         }
 
         let ignore_case: bool = env::var("IGNORE_CASE").is_ok();
